@@ -1,11 +1,12 @@
 {
     "event": {
-        "numParams": 2,
-        "key": 0,
-        "value": 1,
+        "numParams": 3,
+        "key": 1,
+        "value": 2,
         "title": [
             "Evento",
-            "Página"
+            "Página",
+            "ScreenView"
         ]
     },
     "customDimension": {

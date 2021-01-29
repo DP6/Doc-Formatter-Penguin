@@ -6,6 +6,7 @@ function extractEventsFromJson(content, pageNumber, nomeMapa, config = config_fi
 
     let groups = groupTexts(pages);
     let { info, events } = groupEvents(groups, pageNumber, nomeMapa, config);
+
     return { info, events };
 }
 
@@ -41,10 +42,11 @@ function groupTexts(texts, limitX = 25, limitY = 0.05) {
     return groups;
 }
 
-function mergeRow(group, limit = 0) {
+function mergeRow(group, limit = 0.11) {
     let copy = [];
     let temp = null;
-    const size = (56.67 - 54.955) / 6;
+    const size = (44.7 - 42.195) / 7;
+    //console.log(group);
     for (i in group) {
         if (temp === null) temp = group[i];
         const item = temp;
@@ -88,8 +90,10 @@ function groupEvents(groups, pageNumber, nomeMapa, { event, customDimension }) {
         version: versao,
         screen: tela,
     };
+    //console.log(info, groups)
     if (versao == 'VX') return { info, events: [] };
-    let pageviewRegex = new RegExp([event.title[1]], 'i');
+    groups = groups.map(group => mergeRow(group))
+    let pageviewRegex = new RegExp([event.title[1], event.title[2]].join('|'), 'i');
     let index = groups.findIndex(group => pageviewRegex.test(group[0].text) || (group.length > 1 && /pag/i.test(group[1].text)));
     /*var indx = 0;
     for (var x of groups) {
@@ -99,8 +103,10 @@ function groupEvents(groups, pageNumber, nomeMapa, { event, customDimension }) {
             indx++
         }
     }*/
+    index = index === -1 ? 0 : index;
     let page = groups.slice(index).sort((a, b) => a[0].x - b[0].x);
-    page = page.map(group => mergeRow(group));
+    //page = page.map(group => mergeRow(group));
+    console.log(page)
     let events = [],
         e = [];
     for (item of page) {

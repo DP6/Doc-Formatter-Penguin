@@ -10,11 +10,11 @@ function formatEvents(events, info) {
         events.forEach(
             (e, ie) => {
                 e.forEach((i, ii) => {
-                    if (i.key == "nomePagina") {
+                    if (i.key == "nomePagina" || i.key == "screenName") {
                         name = ii;
                         index = ie;
                     }
-                    if (i.key == "templatePagina") template = ii;
+                    if (i.key == "templatePagina" || i.key == "template_tela") template = ii;
                 })
             }
         )
@@ -29,7 +29,6 @@ function formatEvents(events, info) {
 
     if (pageview != undefined && /event/i.test(pageview.key))
         pageview = pageview.filter(item => /p[aá]g/i.test(item.key))
-    console.log(pageview);
     pageview = pageview && pageview.length > 0 ? pageview.map((item) => {
         return {
             pagename: item.value,
